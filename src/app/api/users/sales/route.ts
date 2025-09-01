@@ -5,16 +5,17 @@ export async function POST(request: NextRequest) {
   const reqBody = await request.json();
   const { productid, productname, price, quantity, description } = reqBody;
   const userid = request.cookies.get("userid")?.value;
+  const db = await sqlconnectdb();
+
   try {
-    let db = await sqlconnectdb();
     let [initialquantity] = await db.query(
       "SELECT quantity FROM users_products WHERE productid=?",
       [productid]
     );
-    let iniquantity = initialquantity[0]?.quantity;
+    const iniquantity = initialquantity[0]?.quantity;
     console.log("initial quantity of product", iniquantity);
 
-    let [initialupdateproduct] = await db.query(
+    const [initialupdateproduct] = await db.query(
       "UPDATE users_products SET productname=?,price=?,quantity=?,description=? WHERE productid=?",
       [productname, price, quantity, description, productid]
     );
@@ -26,19 +27,17 @@ export async function POST(request: NextRequest) {
 
     if (iniquantity > quantity) {
       try {
-        let date = new Date().toISOString().slice(0, 10);
+        const date = new Date().toISOString().slice(0, 10);
         console.log("sale date: ", date);
-        let saledquantity = iniquantity - quantity;
-        let productprice = (iniquantity - quantity) * price;
+        const saledquantity = iniquantity - quantity;
+        const productprice = (iniquantity - quantity) * price;
         console.log("sales: ", productprice);
 
-        let db = await sqlconnectdb();
-
-        let insertsales = await db.query(
+        const insertsales = await db.query(
           "INSERT INTO total_sales (userid,productid,productprice,saledquantity,sale_date) VALUES (?,?,?,?,?)",
           [userid, productid, productprice, saledquantity, date]
         );
-        let [updateproduct] = await db.query(
+        const [updateproduct] = await db.query(
           "UPDATE users_products SET productname=?,price=?,quantity=?,description=? WHERE productid=?",
           [productname, price, quantity, description, productid]
         );
@@ -57,6 +56,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           message: "data changed",
+          initialupdateproduct,
         },
         { status: 200 }
       );

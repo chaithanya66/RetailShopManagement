@@ -5,19 +5,19 @@ export async function GET(request: NextRequest) {
   try {
     const db = await sqlconnectdb();
     const userid = request.cookies.get("userid")?.value;
-    let [productsrows]: any = await db.query(
+    const [productsrows]: any = await db.query(
       "SELECT COUNT(*) AS total_product FROM users_products WHERE userid =?",
       [userid]
     );
-    let [salesrows]: any = await db.query(
+    const [salesrows]: any = await db.query(
       "SELECT SUM(productprice) AS total_sales FROM total_sales WHERE userid=? AND sale_date = CURDATE()",
       [userid]
     );
-    let [totalSaleTillNowData]: any = await db.query(
+    const [totalSaleTillNowData]: any = await db.query(
       "SELECT SUM(productprice) AS total_saled FROM total_sales WHERE userid=?",
       [userid]
     );
-    let [monthlysalesrow]: any = await db.query(
+    const [monthlysalesrow]: any = await db.query(
       "SELECT COALESCE(SUM(productprice),0) AS monthly_sales FROM total_sales WHERE userid=? AND MONTH(sale_date) = MONTH(CURDATE()) AND YEAR(sale_date)=YEAR(CURDATE())",
       [userid]
     );

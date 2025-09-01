@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import axios from "axios";
-import { div } from "framer-motion/client";
 
 export default function AddProductPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

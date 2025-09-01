@@ -9,9 +9,9 @@ export async function POST(request: NextRequest) {
   const reqBody = await request.json();
   const { email, password } = reqBody;
   console.log(reqBody);
-  let db = await sqlconnectdb();
+  const db = await sqlconnectdb();
   try {
-    let [rows] = await db.query("SELECT * FROM registration WHERE email=?", [
+    const [rows] = await db.query("SELECT * FROM registration WHERE email=?", [
       email,
     ]);
 

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-
+777;
 function getRandomCode(length = 6) {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%&*";
@@ -24,8 +24,8 @@ export async function POST(request: NextRequest) {
 
   console.log(reqBody);
   try {
-    let db = await sqlconnectdb();
-    let [rows]: any = await db.query(
+    const db = await sqlconnectdb();
+    const [rows]: any = await db.query(
       "SELECT * FROM registration WHERE email=?",
       [email]
     );
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     // const userid = uuidv4;
     console.log("Generated token:", userid);
 
-    let [result]: any = await db.query(
+    const [result]: any = await db.query(
       "INSERT INTO registration (username, email,userid, password,linktocustomer) VALUES (?, ?, ?,?, ?)",
       [username, email, userid, hashedPassword, linktocustomer]
     );
