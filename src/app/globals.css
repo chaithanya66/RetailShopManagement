@@ -24,3 +24,96 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  height: 15px;
+}
+
+.loader .dot {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.7); /* red dot */
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.loader .dot:nth-child(1) {
+  animation-delay: 0s;
+}
+.loader .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loader .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px); /* how high it bounces */
+  }
+}
+
+.spinner {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #ff0000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  /* margin-left: 10px;
+  margin-top: 4px; */
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  height: 15px;
+}
+
+.loader1 .dot1 {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0, 0, 0, 0.7); /* red dot */
+  border-radius: 50%;
+  animation: bouncer 0.6s infinite alternate;
+}
+
+.loader1 .dot1:nth-child(1) {
+  animation-delay: 0s;
+}
+.loader1 .dot1:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loader1 .dot1:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bouncer {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px); /* how high it bounces */
+  }
+}
