@@ -11,18 +11,18 @@ export async function POST(request: NextRequest) {
   console.log(reqBody);
   const db = await sqlconnectdb();
   try {
-    const [rows] = await db.query("SELECT * FROM registration WHERE email=?", [
+    const result = await db.query("SELECT * FROM registration WHERE email=$1", [
       email,
     ]);
 
-    if (rows.length === 0) {
+    if (result.rows.length === 0) {
       return NextResponse.json(
         { message: "User doesn't exists" },
         { status: 400 }
       );
     }
 
-    const isMatch = await bcrypt.compare(password, rows[0].password);
+    const isMatch = await bcrypt.compare(password, result.rows[0].password);
 
     if (!isMatch) {
       return NextResponse.json(
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-    const userid = rows[0].userid;
+    const userid = result.rows[0].userid;
 
     const response = NextResponse.json(
       { message: "Login successfull", userid: userid },
@@ -41,6 +41,7 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error: any) {
+    console.error(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

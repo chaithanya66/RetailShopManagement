@@ -25,11 +25,10 @@ export async function POST(request: NextRequest) {
   console.log(reqBody);
   try {
     const db = await sqlconnectdb();
-    const [rows]: any = await db.query(
-      "SELECT * FROM registration WHERE email=?",
-      [email]
-    );
-    if (rows.length > 0) {
+    const result = await db.query("SELECT * FROM registration WHERE email=$1", [
+      email,
+    ]);
+    if (result.rows.length > 0) {
       return NextResponse.json(
         { message: "User already exists" },
         { status: 409 }
@@ -40,16 +39,21 @@ export async function POST(request: NextRequest) {
     // const userid = uuidv4;
     console.log("Generated token:", userid);
 
-    const [result]: any = await db.query(
-      "INSERT INTO registration (username, email,userid, password,linktocustomer) VALUES (?, ?, ?,?, ?)",
+    const insertUser = await db.query(
+      "INSERT INTO registration (username, email,userid, password,linktocustomer) VALUES ($1, $2, $3,$4, $5) RETURNING id",
       [username, email, userid, hashedPassword, linktocustomer]
     );
 
     return NextResponse.json(
-      { message: "User created successfully", userid: userid, result },
+      {
+        message: "User created successfully",
+        userid: userid,
+        userIdDb: insertUser.rows[0].id,
+      },
       { status: 200 }
     );
   } catch (error: any) {
+    console.error(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

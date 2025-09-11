@@ -34,9 +34,10 @@ export default function DisplayProductsPage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+
     setFormData((prev: any) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "price" || name === "quantity" ? Number(value) : value, // ensure numbers
     }));
   };
 
@@ -46,9 +47,10 @@ export default function DisplayProductsPage() {
       console.log("Updated:", response.data);
 
       setuserproducts((prev) =>
-        prev.map((p) => (p.productid === formData.productid ? formData : p))
+        prev.map((p) =>
+          p.productid === formData.productid ? { ...p, ...formData } : p
+        )
       );
-
       setEditingProduct(null);
     } catch (error) {
       console.log(error);

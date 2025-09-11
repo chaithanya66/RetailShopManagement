@@ -12,13 +12,12 @@ export async function POST(request: NextRequest) {
     const productid = jwt.sign({ productName, userid }, secretCode);
     console.log(productid);
     console.log(userid);
-    const [row] = await db.query(
-      "INSERT INTO users_products (userid,productid,productname,price,quantity,description) VALUES(?,?,?,?,?,?)",
+    await db.query(
+      "INSERT INTO users_products (userid,productid,productname,price,quantity,description) VALUES($1,$2,$3,$4,$5,$6)",
       [userid, productid, productName, price, quantity, description]
     );
-    console.log("Sql: ", row);
     const totalproducts = await db.query(
-      "SELECT COUNT(*) AS total_product FROM users_products WHERE userid =?",
+      "SELECT COUNT(*) AS total_product FROM users_products WHERE userid =$1",
       [userid]
     );
 
