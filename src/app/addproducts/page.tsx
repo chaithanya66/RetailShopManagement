@@ -28,7 +28,7 @@ export default function AddProductPage() {
     }
   }
 
-  const mailUrl = "http://localhost:3000/";
+  const mailUrl = "https://retail-shop-management-kbx5.vercel.app/";
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black text-white overflow-hidden">
       {/* Sidebar */}
