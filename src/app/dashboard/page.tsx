@@ -7,7 +7,7 @@ import axios from "axios";
 import Link from "next/link";
 
 export default function Dashboard() {
-  const mainurl = "http://localhost:3000/";
+  const mainurl = "https://retail-shop-management-kbx5.vercel.app/";
   const [displayhomedata, sethomedata] = useState<any>({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
