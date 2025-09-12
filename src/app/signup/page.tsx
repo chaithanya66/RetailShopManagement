@@ -12,6 +12,12 @@ export default function Signup() {
   const [process, setProcess] = useState(true);
 
   async function onSignup() {
+    if (!user.password || !user.email || !user.username) {
+      return alert("Enter the details");
+    }
+    if (user.password.length <= 5) {
+      return alert("password must conatin atleast 6 characters");
+    }
     try {
       setProcess(false);
       setButtonDisable(true);

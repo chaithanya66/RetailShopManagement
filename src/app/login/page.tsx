@@ -12,6 +12,9 @@ export default function Login() {
   const [process, setProcess] = useState(true);
 
   async function onLogin() {
+    if (!user.password || !user.email) {
+      return alert("Enter the details");
+    }
     try {
       setProcess(false);
       setButtonDisable(true);

@@ -20,7 +20,12 @@ export default function AddProductPage() {
     setPostdata(true);
     try {
       const response = await axios.post("api/users/addproducts", productsDet);
-      console.log(response);
+      console.log("response: ", response);
+      console.log("okkk");
+      if (response.status === 200) {
+        alert("Product added successfully!");
+      }
+      window.location.reload();
     } catch (error: any) {
       console.log(error.message);
     } finally {
